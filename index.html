@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART BOT BENEFITS - Forex & Market Data Dashboard</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            height: 100%;
+            background-color: #f0f0f0;
+        }
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #company-name {
+            font-size: 8vw;
+            font-weight: bold;
+            color: rgba(0, 128, 0, 0.1);
+            text-align: center;
+            line-height: 1.2;
+        }
+        .dashboard {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: rgba(242, 242, 242, 0.8);
+            font-weight: bold;
+        }
+        .up {
+            color: green;
+        }
+        .down {
+            color: red;
+        }
+        #bot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 50px;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="background">
+        <div id="company-name">SMART BOT<br>BENEFITS</div>
+    </div>
+    <div class="dashboard">
+        <table id="marketData">
+            <tr>
+                <th>ASSET</th>
+                <th>LAST</th>
+                <th>BID</th>
+                <th>ASK</th>
+            </tr>
+        </table>
+    </div>
+    <div id="bot-icon">🤖</div>
 
+    <script>
+        const data = [
+            { asset: "EUR/USD", last: 1.08875, bid: 1.08870, ask: 1.08880, trend: "down" },
+            { asset: "GBP/USD", last: 1.29355, bid: 1.29350, ask: 1.29360, trend: "down" },
+            { asset: "USD/JPY", last: 157.1540, bid: 157.1490, ask: 157.1590, trend: "down" },
+            { asset: "USD/CHF", last: 0.88808, bid: 0.88803, ask: 0.88813, trend: "up" },
+            { asset: "USD/CAD", last: 1.37081, bid: 1.37076, ask: 1.37086, trend: "up" },
+            { asset: "AUD/USD", last: 0.67060, bid: 0.67055, ask: 0.67065, trend: "down" },
+            { asset: "NZD/USD", last: 0.60376, bid: 0.60374, ask: 0.60377, trend: "down" },
+            { asset: "USD/CNY", last: 7.26670, bid: 7.26570, ask: 7.26770, trend: "up" },
+            { asset: "EUR/GBP", last: 0.84168, bid: 0.84163, ask: 0.84173, trend: "down" },
+            { asset: "DOLLAR ...", last: 104.2431, bid: 104.2431, ask: 104.2431, trend: "up" },
+            { asset: "SP 500", last: 5540.90, bid: 5612.8, ask: 5612.8, trend: "down" },
+            { asset: "NIKKEI ...", last: 39836.62, bid: 41183.3, ask: 41183.3, trend: "down" },
+            { asset: "FTSE 10...", last: 8147.61, bid: 8234.04, ask: 8234.04, trend: "down" },
+            { asset: "DAX", last: 18247.38, bid: 18673.4, ask: 18673.4, trend: "down" },
+            { asset: "WTI US ...", last: 80.48600, bid: 80.47600, ask: 80.49600, trend: "down" },
+            { asset: "XAU/USD", last: 2421.7200, bid: 2421.6700, ask: 2421.7700, trend: "down" }
+        ];
+
+        function populateTable() {
+            const table = document.getElementById('marketData');
+            data.forEach(item => {
+                const row = table.insertRow();
+                row.innerHTML = `
+                    <td><span class="${item.trend}">${item.trend === 'up' ? '▲' : '▼'}</span> ${item.asset}</td>
+                    <td>${item.last.toFixed(5)}</td>
+                    <td>${item.bid.toFixed(5)}</td>
+                    <td>${item.ask.toFixed(5)}</td>
+                `;
+            });
+        }
+
+        populateTable();
+
+        setInterval(() => {
+            data.forEach(item => {
+                item.last += (Math.random() - 0.5) * 0.001;
+                item.bid += (Math.random() - 0.5) * 0.001;
+                item.ask += (Math.random() - 0.5) * 0.001;
+                item.trend = Math.random() > 0.5 ? 'up' : 'down';
+            });
+            document.getElementById('marketData').innerHTML = '<tr><th>ASSET</th><th>LAST</th><th>BID</th><th>ASK</th></tr>';
+            populateTable();
+        }, 5000);
+    </script>
+</body>
+</html>
